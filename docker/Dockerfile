@@ -3,11 +3,12 @@ FROM python:3.11.11-slim-bullseye AS builder
 WORKDIR /app
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update -qq \
-  && apt-get -qqq install --no-install-recommends -y pkg-config gcc g++ \
-  && apt-get upgrade --assume-yes \
-  && apt-get clean \
-  && rm -rf /var/lib/apt
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    pkg-config \
+    gcc \
+    g++ \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 RUN python -mvenv venv && ./venv/bin/pip install --no-cache-dir --upgrade pip
 
